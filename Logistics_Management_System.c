@@ -174,3 +174,14 @@ void distanceManagement(int cityCount,char cities[][MAX_NAME_LENGTH],int distanc
             printf("Invalid choice!\n");
     } while(choice != 3);
 }
+
+//Vehicle Management
+void vehicleManagement(void){
+     printf("\n--- Vehicle Management ---\n");
+     printf("%-10s %-12s %-15s %-12s %-15s\n","Type","Capacity(kg)","Rate/km(LKR)","Speed(km/h)","Efficiency(km)");
+     printf("------------------------------------------------------------------------\n");
+
+    for(int i = 0; i < 3; i++) {
+        printf("%-10s %-12d %-15d %-12d %-15d\n",vehicleTypes[i], vehicleCapacity[i], vehicleRate[i],vehicleSpeed[i], vehicleEfficiency[i]);
+    }
+}
