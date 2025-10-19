@@ -92,8 +92,8 @@ void initializeSystem(int* cityCount, char cities[][MAX_NAME_LENGTH],int distanc
         }
     }
 
-char* cities[] = {"Colombo", "Kandy", "Galle", "Jaffna"};
-    int distancesA[4][4] = {
+char* dCities[] = {"Colombo", "Kandy", "Galle", "Jaffna"};
+    int dDistances[4][4] = {
         {0, 120, 115, 400},
         {120, 0, 200, 350},
         {115, 200, 0, 450},
@@ -101,9 +101,9 @@ char* cities[] = {"Colombo", "Kandy", "Galle", "Jaffna"};
     };
 
     for(int i = 0; i < 4; i++) {
-        strcpy(cities[i],cities[i]);
+        strcpy(cities[i],dCities[i]);
         for(int j = 0; j < 4; j++) {
-            distance[i][j] = distancesA[i][j];
+            distance[i][j] = dDistances[i][j];
         }
      }
     *cityCount = 4;
@@ -152,4 +152,25 @@ void cityManagement(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[]
                 printf("Invalid choice!\n");
         }
     } while(choice != 5);
+}
+
+
+//Distance Management
+void distanceManagement(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
+    int choice;
+    do {
+        printf("\n--- Distance Management ---\n");
+        printf("1. Input Distance\n 2. Display Distance Table\n 3. Back to Main Menu\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        clearInputBuffer();
+
+        if(choice == 1)
+            inputDistance(cityCount, cities, distance);
+        else if(choice == 2)
+            displayDistanceTable(cityCount, cities, distance);
+        else if(choice != 3)
+            printf("Invalid choice!\n");
+    } while(choice != 3);
 }
