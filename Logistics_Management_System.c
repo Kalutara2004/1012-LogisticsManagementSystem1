@@ -110,3 +110,13 @@ char* cities[] = {"Colombo", "Kandy", "Galle", "Jaffna"};
     *deliveryCount = 0;
     printf("Logistics Management System Initialized!\n");
 }
+
+//Display Main Menu
+void displayMainMenu(void){
+    printf("\n========================================\n");
+    printf("    LOGISTICS MANAGEMENT SYSTEM\n");
+    printf("========================================\n");
+    printf("1. City Management\n 2. Distance Management\n 3. Vehicle Management\n 4. Delivery Request\n");
+    printf("5. Reports\n 6. File Handling\n 7. Exit\n");
+    printf("========================================\n");
+}
