@@ -185,3 +185,81 @@ void vehicleManagement(void){
         printf("%-10s %-12d %-15d %-12d %-15d\n",vehicleTypes[i], vehicleCapacity[i], vehicleRate[i],vehicleSpeed[i], vehicleEfficiency[i]);
     }
 }
+
+//Delivery Request
+void deliveryRequest(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int* deliveryCount,int deliveryId[],                                                    char deliverySource[][MAX_NAME_LENGTH],
+                    char deliveryDestination[][MAX_NAME_LENGTH],float deliveryWeight[],float deliveryDistance[],int deliveryVehicle[],
+                    float deliveryCustomerCharge[],float deliveryEstimatedTime[],float deliveryPofit[]){
+    if(city_count < 2) {
+        printf("Need at least 2 cities for delivery!\n");
+        return;
+    }
+
+    if(*delivery_count >= MAX_DELIVERIES) {
+        printf("Delivery records are full!\n");
+        return;
+    }
+
+    displayCities(cityCount, cities);
+
+    int source, destination, vehicleType;
+    float weight;
+
+    printf("Enter source city index: ");
+    scanf("%d", &source);
+    printf("Enter destination city index: ");
+    scanf("%d", &destination);
+
+    if(source < 0 || source >= cityCount || destination < 0 || destination >= cityCount) {
+        printf("Invalid city index! Enter correct index.\n");
+
+        clearInputBuffer();
+        return;
+    }
+
+    if(source == destination) {
+        printf("Source and destination cannot be the same!\n");
+        clearInputBuffer();
+        return;
+    }
+
+    vehicleManagement();
+
+    printf("Select vehicle type (1=Van, 2=Truck, 3=Lorry): ");
+    scanf("%d", &vehicleType);
+    vehicleType--;
+
+    if(vehicleType < 0 || vehicleType > 2) {
+        printf("Invalid vehicle type! Enter correct vehicle type.\n");
+
+        clearInputBuffer();
+        return;
+    }
+
+    printf("Enter package weight (kg): ");
+    scanf("%f", &weight);
+
+    clearInputBuffer();
+
+    if(weight <= 0) {
+        printf("Weight must be positive!\n");
+        return;
+    }
+    if(weight > vehicleCapacity[vehicleType]) {
+        printf("Weight exceeds vehicle capacity! Maximum is %d kg\n", vehicleCapacity[vehicleType]);
+        return;
+    }
+
+    int path[MAX_CITIES];
+    int pathLength = 0;
+    float minDistance = findMinimumDistance(source, destination, path, &pathLength,cityCount, distance);
+    if(minDistance == -1) {
+        printf("No valid route found!\n");
+        return;
+    }
+    calculateDeliveryCost(source, destination, vehicleType, weight, minDistance,vehicleRate, vehicleSpeed, vehicleEfficiency,
+                          cities,vehicleTypes);
+    saveDeliveryRecord(source, destination, vehicleType, weight, minDistance,deliveryCount, deliveryId, deliverySource,
+                       deliveryDestination,deliveryWeight, deliveryDistance, deliveryVehicle,dliveryCustomerCharge,
+                       deliveryEstimatedTime, deliveryProfit,cities, vehicleRate, vehicleSpeed);
+}
