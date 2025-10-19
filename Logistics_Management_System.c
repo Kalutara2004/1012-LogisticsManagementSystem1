@@ -120,3 +120,36 @@ void displayMainMenu(void){
     printf("5. Reports\n 6. File Handling\n 7. Exit\n");
     printf("========================================\n");
 }
+
+//City Management
+void cityManagement(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES], int deliveryCount,
+                    char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]){
+  int choice;
+    do {
+        printf("\n--- City Management ---\n");
+        printf("1. Add City\n 2. Rename City\n 3. Remove City\n 4. Display Cities\n 5. Back to Main Menu\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        clearInputBuffer();
+
+        switch(choice) {
+            case 1:
+                addCity(cityCount, cities, distance);
+                break;
+            case 2:
+                renameCity(*cityCount, cities, deliveryCount, deliverySource, deliveryDestination);
+                break;
+            case 3:
+                removeCity(cityCount, cities, distance, deliveryCount, deliverySource, deliveryDestination);
+                break;
+            case 4:
+                displayCities(*cityCount, cities);
+                break;
+            case 5:
+                break;
+            default:
+                printf("Invalid choice!\n");
+        }
+    } while(choice != 5);
+}
