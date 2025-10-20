@@ -585,3 +585,45 @@ void displayDistanceTable(int cityCount,char cities[][MAX_NAME_LENGTH],int dista
         printf("\n");
     }
 }
+
+//Calculate Delivery Cost
+float calculateDeliveryCost(int source,int destination,int vehicleType,float weight,float minDistance,int vehicleRate[],int vehicleSpeed[],
+                           int vehicleEfficiency[],char cities[][MAX_NAME_LENGTH],char vehicle_types[][10]){
+    int path[MAX_CITIES];
+    int pathLength = 0;
+
+    printf("\nOptimal Route: ");
+    for(int i = 0; i < pathLength; i++) {
+        printf("%s", cities[path[i]]);
+        if(i < pathLength - 1) {
+            printf(" -> ");
+        }
+    }
+    printf(" (%.2f km)\n", minDistance);
+    float D = minDistance;
+    float W = weight;
+    int R = vehicleRate[vehicleType];
+    int S = vehicleSpeed[vehicleType];
+    int E = vehicleEfficiency[vehicleType];
+
+    float baseCost = D * R * (1 + W / 10000.0);
+    float estimatedTime = D / S;
+    float fuelUsed = D / E;
+    float fuelCost = fuelUsed * FUEL_PRICE;
+    float operationalCost = baseCost + fuelCost;
+    float profit = baseCost * 0.25;
+    float customerCharge = operationalCost + profit;
+
+    printf("\n==============================================================\n");
+    printf("DELIVERY COST ESTIMATION\n");
+    printf("==============================================================\n");
+    printf("From: %s\nTo: %s\nDistance: %.2f km\nVehicle: %s\nWeight: %.2f kg\n",
+           cities[source], cities[destination], minDistance, vehicleTypes[vehicleType], weight);
+    printf("==============================================================\n");
+    printf("Base Cost: %.2f LKR\nFuel Used: %.2f L\nFuel Cost: %.2f LKR\n", baseCost, fuelUsed, fuelCost);
+    printf("Operational Cost: %.2f LKR\nProfit: %.2f LKR\n", operational_cost, profit);
+    printf("Customer Charge: %.2f LKR\nEstimated Time: %.2f hours\n", customerCharge, estimatedTime);
+    printf("==============================================================\n");
+
+    return customerCharge;
+}
