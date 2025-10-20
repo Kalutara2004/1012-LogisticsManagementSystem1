@@ -434,3 +434,24 @@ void renameCity(int cityCount,char cities[][MAX_NAME_LENGTH],int deliveryCount,c
     }
     printf("City '%s' renamed to '%s' successfully!\n", oldName, newName);
 }
+
+//Rename City
+void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int deliveryCount,
+                char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]){
+    if(*cityCount == 0) {
+        printf("No cities available to remove.\n");
+        return;
+    }
+
+    displayCities(*cityCount, cities);
+    int cityIndex;
+
+    printf("Enter city index to remove: ");
+    scanf("%d", &cityIndex);
+
+    clearInputBuffer();
+
+    if(cityIndex < 0 || cityIndex >= *cityCount) {
+        printf("Invalid city index!Please enter correct index.\n");
+        return;
+    }
