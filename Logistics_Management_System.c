@@ -59,7 +59,8 @@ void saveDeliveryRecord(int source,int destination,int vehicleType,float weight,
                        int vehicle_speed[]);
 float findMinimumDistance(int source,int destination,int path[],int* pathLength,int cityCount,int distance[][MAX_CITIES]);
 void clearInputBuffer(void);
-
+void updateDeliveryRecordsAfterCityRemoval(int removedIndex, const char* removedCity,int deliveryCount,
+                                          char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]);
 
 int main(){
 
@@ -668,4 +669,10 @@ void clearInputBuffer(void){
     int c;
     while((c = getchar()) != '\n' && c != EOF) {
     }
+}
+
+//Update Delivery Records After City Removal
+void updateDeliveryRecordsAfterCityRemoval(int removedIndex, const char* removedCity,int deliveryCount,
+                                          char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]){
+     printf("Note: Delivery records involving '%s' may need manual review.\n", removedCity);
 }
