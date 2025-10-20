@@ -559,3 +559,29 @@ int inputDistance(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MA
     printf("Distance set successfully!\n");
     return 0;
 }
+
+//Display Distance Table
+void displayDistanceTable(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
+     if(cityCount == 0) {
+        printf("No cities available.\n");
+        return;
+    }
+
+    printf("\n--- Distance Table (km) ---\n");
+    printf("%-15s", "");
+    for(int i = 0; i < cityCount; i++) {
+        printf("%-15s", cities[i]);
+    }
+    printf("\n");
+    for(int i = 0; i < cityCount; i++) {
+        printf("%-15s", cities[i]);
+        for(int j = 0; j < cityCount; j++) {
+            if(distance[i][j] == -1) {
+                printf("%-15s", "N/A");
+            } else {
+                printf("%-15d", distance[i][j]);
+            }
+        }
+        printf("\n");
+    }
+}
