@@ -47,7 +47,7 @@ void renameCity(int cityCount,char cities[][MAX_NAME_LENGTH],int deliveryCount,c
                 char deliveryDestination[][MAX_NAME_LENGTH]);
 void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int deliveryCount,
                 char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]);
-void displayCities(int cityCunt,char cities[][MAX_NAME_LENGTH]);
+void displayCities(int cityCount,char cities[][MAX_NAME_LENGTH]);
 int inputDistance(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]);
 void displayDistanceTable(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]);
 float calculateDeliveryCost(int source,int destination,int vehicleType,float weight,float minDistance,int vehicleRate[],int vehicleSpeed[],
@@ -495,4 +495,16 @@ void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX
     updateDeliveryRecordsAfterCityRemoval(cityIndex, removedCity, deliveryCount,deliverySource, deliveryDestination);
     (*cityCount)--;
     printf("City '%s' removed successfully!\n", removedCity);
+}
+
+//Display Cities
+void displayCities(int cityCount,char cities[][MAX_NAME_LENGTH]){
+    printf("\n--- City List ---\n");
+    if(cityCount == 0) {
+        printf("No cities available.\n");
+    } else {
+        for(int i = 0; i < cityCount; i++) {
+            printf("%d. %s\n", i, cities[i]);
+        }
+    }
 }
