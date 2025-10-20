@@ -662,3 +662,10 @@ float findMinimumDistance(int source,int destination,int path[],int* pathLength,
     }
     return -1;
 }
+
+//Clear Input Buffer
+void clearInputBuffer(void){
+    int c;
+    while((c = getchar()) != '\n' && c != EOF) {
+    }
+}
