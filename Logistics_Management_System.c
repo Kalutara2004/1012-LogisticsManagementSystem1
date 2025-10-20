@@ -256,14 +256,14 @@ void deliveryRequest(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[]
     calculateDeliveryCost(source, destination, vehicleType, weight, minDistance,vehicleRate, vehicleSpeed, vehicleEfficiency,
                           cities,vehicleTypes);
     saveDeliveryRecord(source, destination, vehicleType, weight, minDistance,deliveryCount, deliveryId, deliverySource,
-                       deliveryDestination,deliveryWeight, deliveryDistance, deliveryVehicle,dliveryCustomerCharge,
+                       deliveryDestination,deliveryWeight, deliveryDistance, deliveryVehicle,deliveryCustomerCharge,
                        deliveryEstimatedTime, deliveryProfit,cities, vehicleRate, vehicleSpeed);
 }
 
 //Reports
 void reports(int deliveryCount,char deliverySource[][MAX_NAME_LENGTH],char deliveryDstination[][MAX_NAME_LENGTH],float deliveryDistance[],
              float deliveryEstimatedTime[],float deliveryCustomerCharge[],float deliveryProfit[]){
-     if(delivery_count == 0) {
+     if(deliveryCount == 0) {
         printf("No delivery data available in system.\n");
         return;
     }
@@ -461,7 +461,7 @@ void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX
             break;
         }
     }
-    if(has_deliveries) {
+    if(hasDeliveries) {
         printf("Warning: City '%s' has delivery records. ", removedCity);
         printf("Removing it will affect delivery history.\n");
 
@@ -617,7 +617,7 @@ float calculateDeliveryCost(int source,int destination,int vehicleType,float wei
            cities[source], cities[destination], minDistance, vehicleTypes[vehicleType], weight);
     printf("==============================================================\n");
     printf("Base Cost: %.2f LKR\nFuel Used: %.2f L\nFuel Cost: %.2f LKR\n", baseCost, fuelUsed, fuelCost);
-    printf("Operational Cost: %.2f LKR\nProfit: %.2f LKR\n", operational_cost, profit);
+    printf("Operational Cost: %.2f LKR\nProfit: %.2f LKR\n", operationalCost, profit);
     printf("Customer Charge: %.2f LKR\nEstimated Time: %.2f hours\n", customerCharge, estimatedTime);
     printf("==============================================================\n");
 
@@ -650,4 +650,15 @@ void saveDeliveryRecord(int source,int destination,int vehicleType,float weight,
 
     (*deliveryCount)++;
     printf("Delivery record saved! (ID: %d)\n", deliveryId[id]);
+}
+
+//Find Minimum Distance
+float findMinimumDistance(int source,int destination,int path[],int* pathLength,int cityCount,int distance[][MAX_CITIES]){
+    if(distance[source][destination] != -1) {
+        path[0] = source;
+        path[1] = destination;
+        *pathLength = 2;
+        return distance[source][destination];
+    }
+    return -1;
 }
