@@ -313,3 +313,39 @@ void reports(int deliveryCount,char deliverySource[][MAX_NAME_LENGTH],char deliv
     printf("e. Longest Route: %.2f km (%s to %s)\n",longestRoute,deliverySource[longestId],deliveryDestination[longestId]);
     printf("   Shortest Route: %.2f km (%s to %s)\n",shortestRoute,deliverySource[shortestId],deliveryDestination[shortestId]);
 }
+
+//File Handling
+void fileHandling(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
+    int choice;
+    printf("\n--- File Handling ---\n");
+    printf("1. Save Data to Files\n 2. Back to Main Menu\n Enter your choice: ");
+
+    scanf("%d", &choice);
+
+    clearInputBuffer();
+
+    if(choice == 1) {
+        FILE* file = fopen("routes.txt", "w");
+        if(file) {
+            fprintf(file, "Cities:\n");
+            for(int i = 0; i < cityCount; i++) {
+                fprintf(file, "%s\n", cities[i]);
+            }
+    fprintf(file, "\nDistance Matrix:\n");
+            for(int i = 0; i < cityCount; i++) {
+                for(int j = 0; j < cityCount; j++) {
+                    fprintf(file, "%d ", distance[i][j]);
+                }
+                fprintf(file, "\n");
+            }
+            fclose(file);
+            printf("Data saved to routes.txt\n");
+        } else {
+            printf("Error saving data!\n");
+        }
+    } else {
+        if(choice != 2) {
+            printf("Invalid choice!\n");
+        }
+    }
+}
