@@ -210,7 +210,7 @@ void deliveryRequest(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[]
     printf("Enter destination city index: ");
     scanf("%d", &destination);
 
-    if(source < 0 || source >= cityCount || destination < 0 || destination >= cityCount) {
+    if(source < 0 || source >= cityCount || destination < 0 || cityCount <= destination) {
         printf("Invalid city index! Enter correct index.\n");
 
         clearInputBuffer();
@@ -435,10 +435,10 @@ void renameCity(int cityCount,char cities[][MAX_NAME_LENGTH],int deliveryCount,c
     printf("City '%s' renamed to '%s' successfully!\n", oldName, newName);
 }
 
-//Rename City
+//Remove City
 void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int deliveryCount,
                 char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]){
-    if(*cityCount == 0) {
+     if(*cityCount == 0) {
         printf("No cities available to remove.\n");
         return;
     }
@@ -448,10 +448,51 @@ void removeCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX
 
     printf("Enter city index to remove: ");
     scanf("%d", &cityIndex);
-
     clearInputBuffer();
 
     if(cityIndex < 0 || cityIndex >= *cityCount) {
         printf("Invalid city index!Please enter correct index.\n");
         return;
     }
+    char removedCity[MAX_NAME_LENGTH];
+    strcpy(removedCity, cities[cityIndex]);
+
+    int hasDeliveries = 0;
+    for(int i = 0; i < deliveryCount; i++) {
+        if(strcmp(deliverySource[i], removedCity) == 0 ||
+           strcmp(deliveryDestination[i], removedCity) == 0) {
+            hasDeliveries = 1;
+            break;
+        }
+    }
+    if(has_deliveries) {
+        printf("Warning: City '%s' has delivery records. ", removedCity);
+        printf("Removing it will affect delivery history.\n");
+
+        char confirm;
+        printf("Are you sure you want to remove this city? (y/n): ");
+        scanf("%c", &confirm);
+        clearInputBuffer();
+
+        if(confirm != 'y' && confirm != 'Y') {
+            printf("City removal cancelled.\n");
+            return;
+        }
+    }
+    for(int i = cityIndex; i < *cityCount - 1; i++) {
+        strcpy(cities[i], cities[i + 1]);
+    }
+    for(int i = cityIndex; i < *cityCount - 1; i++) {
+        for(int j = 0; j < *cityCount; j++) {
+            distance[i][j] = distance[i + 1][j];
+        }
+    }
+    for(int j = cityIndex; j < *cityCount - 1; j++) {
+        for(int i = 0; i < *cityCount - 1; i++) {
+            distance[i][j] = distance[i][j + 1];
+        }
+    }
+    updateDeliveryRecordsAfterCityRemoval(cityIndex, removedCity, deliveryCount,deliverySource, deliveryDestination);
+    (*cityCount)--;
+    printf("City '%s' removed successfully!\n", removedCity);
+}
