@@ -345,7 +345,44 @@ void fileHandling(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MA
         }
     } else {
         if(choice != 2) {
-            printf("Invalid choice!\n");
+            printf("Invalid choice!Please enter correct choice.\n");
         }
     }
+}
+
+//Add City
+void addCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
+    if(*cityCount >= MAX_CITIES) {
+        printf("Cannot add more cities! Maximum limit reached.\n");
+        return;
+    }
+
+    char cityName[MAX_NAME_LENGTH];
+    printf("Enter city name: ");
+    fgets(cityName, MAX_NAME_LENGTH, stdin);
+    cityName[strcspn(cityName, "\n")] = 0;
+    for(int i = 0; i < *cityCount; i++) {
+        if(strcmp(cities[i], cityName) == 0) {
+            printf("City '%s' already exists!\n", cityName);
+            return;
+        }
+    }
+
+    strcpy(cities[*cityCount], cityName);
+        for(int i = 0; i <= *cityCount; i++) {
+        if (i == *cityCount) {
+            distance[*cityCount][i] = 0;
+        } else {
+            distance[*cityCount][i] = -1;
+        }
+
+        if (i == *cityCount) {
+            distance[i][*cityCount] = 0;
+        } else {
+            distance[i][*cityCount] = -1;
+        }
+    }
+
+    (*cityCount)++;
+    printf("City '%s' added successfully!\n", cityName);
 }
