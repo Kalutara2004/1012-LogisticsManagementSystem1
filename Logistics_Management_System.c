@@ -508,3 +508,54 @@ void displayCities(int cityCount,char cities[][MAX_NAME_LENGTH]){
         }
     }
 }
+
+//Input Distance
+int inputDistance(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
+     if(cityCount < 2) {
+        printf("Need at least 2 cities!\n");
+        return -1;
+    }
+
+    displayCities(cityCount, cities);
+    int city1, city2, distin;
+
+    printf("Enter first city index: ");
+    if(scanf("%d", &city1) != 1) {
+        clearInputBuffer();
+        printf("Invalid input!\n");
+        return -1;
+    }
+    printf("Enter second city index: ");
+    if(scanf("%d", &city2) != 1) {
+        clearInputBuffer();
+        printf("Invalid input!\n");
+        return -1;
+    }
+
+    if(city1 < 0 || city1 >= cityCount || city2 < 0 || city2 >= cityCount) {
+        printf("Invalid city index!\n");
+        clearInputBuffer();
+        return -1;
+    }
+    if(city1 == city2) {
+        printf("Distance from city to itself is 0!\n");
+        clearInputBuffer();
+        return -1;
+    }
+
+    printf("Enter distance between %s and %s (km): ", cities[city1], cities[city2]);
+    if(scanf("%d", &distin) != 1) {
+        clearInputBuffer();
+        printf("Invalid distance input!\n");
+        return -1;
+    }
+    if(distin < 0) {
+        printf("Distance cannot be negative!\n");
+        return -1;
+    }
+
+    distance[city1][city2] = distin;
+    distance[city2][city1] = distin;
+    printf("Distance set successfully!\n");
+    return 0;
+}
