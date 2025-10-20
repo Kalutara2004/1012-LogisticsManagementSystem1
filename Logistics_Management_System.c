@@ -52,14 +52,10 @@ int inputDistance(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MA
 void displayDistanceTable(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]);
 float calculateDeliveryCost(int source,int destination,int vehicleType,float weight,float minDistance,int vehicleRate[],int vehicleSpeed[],
                            int vehicleEfficiency[],char cities[][MAX_NAME_LENGTH],char vehicle_types[][10]);
-void saveDeliveryRecord(int source,int destination,int vehicleType,
-                       float weight,float minDistance,int* deliveryCount,
-                       int deliveryId[],char deliverySource[][MAX_NAME_LENGTH],
-                       char deliveryDestination[][MAX_NAME_LENGTH],
-                       float deliveryWeight[],float deliveryDistance[],
-                       int delivery_vehicle[],float deliveryCustomerCharge[],
-                       float deliveryEstimatedTime[],float deliveryProfit[],
-                       char cities[][MAX_NAME_LENGTH],int vehicleRate[],
+void saveDeliveryRecord(int source,int destination,int vehicleType,float weight,float minDistance,int* deliveryCount,
+                       int deliveryId[],char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH],
+                       float deliveryWeight[],float deliveryDistance[],int delivery_vehicle[],float deliveryCustomerCharge[],
+                       float deliveryEstimatedTime[],float deliveryProfit[],char cities[][MAX_NAME_LENGTH],int vehicleRate[],
                        int vehicle_speed[]);
 float findMinimumDistance(int source,int destination,int path[],int* pathLength,int cityCount,int distance[][MAX_CITIES]);
 void clearInputBuffer(void);
@@ -190,12 +186,12 @@ void vehicleManagement(void){
 void deliveryRequest(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int* deliveryCount,int deliveryId[],                                                    char deliverySource[][MAX_NAME_LENGTH],
                     char deliveryDestination[][MAX_NAME_LENGTH],float deliveryWeight[],float deliveryDistance[],int deliveryVehicle[],
                     float deliveryCustomerCharge[],float deliveryEstimatedTime[],float deliveryPofit[]){
-    if(city_count < 2) {
+    if(cityCount < 2) {
         printf("Need at least 2 cities for delivery!\n");
         return;
     }
 
-    if(*delivery_count >= MAX_DELIVERIES) {
+    if(*deliveryCount >= MAX_DELIVERIES) {
         printf("Delivery records are full!\n");
         return;
     }
@@ -626,4 +622,32 @@ float calculateDeliveryCost(int source,int destination,int vehicleType,float wei
     printf("==============================================================\n");
 
     return customerCharge;
+}
+
+//Save Delivery Record
+void saveDeliveryRecord(int source,int destination,int vehicleType,float weight,float minDistance,int* deliveryCount,
+                       int deliveryId[],char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH],
+                       float deliveryWeight[],float deliveryDistance[],int delivery_vehicle[],float deliveryCustomerCharge[],
+                       float deliveryEstimatedTime[],float deliveryProfit[],char cities[][MAX_NAME_LENGTH],int vehicleRate[],
+                       int vehicle_speed[]){
+    int id = *deliveryCount;
+    deliveryId[id] = id + 1;
+    strcpy(deliverySource[id], cities[source]);
+    strcpy(deliveryDestination[id], cities[destination]);
+    deliveryWeight[id] = weight;
+    deliveryVehicle[id] = vehicleType;
+    deliveryDistance[id] = minDistance;
+
+    float D = minDistance;
+    float W = weight;
+    int R = vehicleRate[vehicleType];
+    int S = vehicleSpeed[vehicleType];
+
+    float baseCost = D * R * (1 + W / 10000.0);
+    deliveryEstimatedTime[id] = D / S;
+    deliveryProfit[id] = baseCost * 0.25;
+    deliveryCustomerCharge[id] = baseCost + deliveryProfit[id];
+
+    (*deliveryCount)++;
+    printf("Delivery record saved! (ID: %d)\n", deliveryId[id]);
 }
