@@ -263,3 +263,53 @@ void deliveryRequest(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[]
                        deliveryDestination,deliveryWeight, deliveryDistance, deliveryVehicle,dliveryCustomerCharge,
                        deliveryEstimatedTime, deliveryProfit,cities, vehicleRate, vehicleSpeed);
 }
+
+//Reports
+void reports(int deliveryCount,char deliverySource[][MAX_NAME_LENGTH],char deliveryDstination[][MAX_NAME_LENGTH],float deliveryDistance[],
+             float deliveryEstimatedTime[],float deliveryCustomerCharge[],float deliveryProfit[]){
+     if(delivery_count == 0) {
+        printf("No delivery data available in system.\n");
+        return;
+    }
+
+    printf("\n--- PERFORMANCE REPORTS ---\n");
+    printf("a. Total Deliveries Completed: %d\n", deliveryCount);
+
+    float totalDistance = 0;
+    float totalTime = 0;
+    float totalRevenue = 0;
+    float totalProfit = 0;
+    float longestRoute = deliveryDistance[0];
+    float shortestRoute = deliveryDistance[0];
+    int longestId = 0;
+    int shortestId = 0;
+
+    for(int i = 0; i < deliveryCount; i++) {
+        totalDistance += deliveryDistance[i];
+        totalTime += deliveryEstimatedTime[i];
+        totalRevenue += deliveryCustomerCharge[i];
+        totalProfit += deliveryProfit[i];
+
+        if(longestRoute < deliveryDistance[i]) {
+            longestRoute = deliveryDistance[i];
+            longestId = i;
+        }
+        if(deliveryDistance[i] < shortestRoute) {
+            shortestRoute = deliveryDistance[i];
+            shortestId = i;
+        }
+    }
+
+    printf("b. Total Distance Covered: %.2f km\n", totalDistance);
+
+    float averageTime = 0;
+    if (deliveryCount > 0) {
+        averageTime = totalTime / deliveryCount;
+    }
+    printf("c. Average Delivery Time: %.2f hours\n", averageTime);
+
+    printf("d. Total Revenue: %.2f LKR\n", totalRevenue);
+    printf("   Total Profit: %.2f LKR\n", totalProfit);
+    printf("e. Longest Route: %.2f km (%s to %s)\n",longestRoute,deliverySource[longestId],deliveryDestination[longestId]);
+    printf("   Shortest Route: %.2f km (%s to %s)\n",shortestRoute,deliverySource[shortestId],deliveryDestination[shortestId]);
+}
