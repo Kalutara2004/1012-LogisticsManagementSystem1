@@ -386,3 +386,51 @@ void addCity(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CI
     (*cityCount)++;
     printf("City '%s' added successfully!\n", cityName);
 }
+
+//Rename City
+void renameCity(int cityCount,char cities[][MAX_NAME_LENGTH],int deliveryCount,char deliverySource[][MAX_NAME_LENGTH],
+                char deliveryDestination[][MAX_NAME_LENGTH]){
+     int cityIndex;
+     char newName[MAX_NAME_LENGTH];
+
+    if(cityCount == 0) {
+        printf("No cities available to rename.\n");
+        return;
+    }
+
+    displayCities(cityCount, cities);
+
+    printf("Enter city index to rename: ");
+    scanf("%d", &cityIndex);
+
+    clearInputBuffer();
+
+    if(cityIndex < 0 || cityIndex >= cityCount) {
+        printf("Invalid city index! Please enter correct index.\n");
+        return;
+    }
+
+    printf("Enter new name for %s: ", cities[cityIndex]);
+    fgets(newName, MAX_NAME_LENGTH, stdin);
+    newName[strcspn(newName, "\n")] = 0;
+
+    for(int i = 0; i < cityCount; i++) {
+        if(i != cityIndex && strcmp(cities[i], newName) == 0) {
+            printf("City '%s' already exists! Renaming failed.\n", newName);
+            return;
+        }
+    }
+   char oldName[MAX_NAME_LENGTH];
+    strcpy(oldName, cities[cityIndex]);
+    strcpy(cities[cityIndex], newName);
+
+    for(int i = 0; i < deliveryCount; i++) {              // Update delivery records with the new city name
+        if(strcmp(deliverySource[i], oldName) == 0) {
+            strcpy(deliverySource[i], newName);
+        }
+        if(strcmp(deliveryDestination[i], oldName) == 0) {
+            strcpy(deliveryDestination[i], newName);
+        }
+    }
+    printf("City '%s' renamed to '%s' successfully!\n", oldName, newName);
+}
