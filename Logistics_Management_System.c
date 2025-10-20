@@ -63,19 +63,54 @@ void updateDeliveryRecordsAfterCityRemoval(int removedIndex, const char* removed
                                           char deliverySource[][MAX_NAME_LENGTH],char deliveryDestination[][MAX_NAME_LENGTH]);
 
 int main(){
+    initializeSystem(&cityCount, cities, distance, &deliveryCount);
+    int choice;
 
+    do {
+        displayMainMenu();
+        printf("Enter your choice: ");
+        if(scanf("%d", &choice) != 1) {
 
+            clearInputBuffer();
+            printf("Invalid input! Please enter a number.\n");
+            continue;
+        }
+        clearInputBuffer();
 
+        switch(choice) {
+            case 1:
+                cityManagement(&cityCount, cities, distance, deliveryCount,
+                             deliverySource, deliveryDestination);
+                break;
+            case 2:
+                distanceManagement(cityCount, cities, distance);
+                break;
+            case 3:
+                vehicleManagement();
+                break;
+            case 4:
+                deliveryRequest(cityCount, cities, distance, &deliveryCount,deliveryId, deliverySource, deliveryDestination,
+                              deliveryWeight, deliveryDistance, deliveryVehicle,deliveryCustomerCharge, deliveryEstimatedTime,
+                              deliveryProfit);
+                break;
+            case 5:
+                reports(deliveryCount, deliverySource, deliveryDestination,deliveryDistance, deliveryEstimatedTime,
+                       deliveryCustomerCharge, deliveryProfit);
+                break;
+            case 6:
+                fileHandling(cityCount, cities, distance);
+                break;
+            case 7:
+                printf("Exiting system. Goodbye!\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while(choice != 7);
 
-
-
-
-
-
-
-
-
+    return 0;
 }
+
 
 //Initialize the System
 void initializeSystem(int* cityCount, char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES],int* deliveryCount) {
@@ -113,8 +148,8 @@ void displayMainMenu(void){
     printf("\n========================================\n");
     printf("    LOGISTICS MANAGEMENT SYSTEM\n");
     printf("========================================\n");
-    printf("1. City Management\n 2. Distance Management\n 3. Vehicle Management\n 4. Delivery Request\n");
-    printf("5. Reports\n 6. File Handling\n 7. Exit\n");
+    printf("1. City Management\n2. Distance Management\n3. Vehicle Management\n4. Delivery Request\n");
+    printf("5. Reports\n6. File Handling\n7. Exit\n");
     printf("========================================\n");
 }
 
@@ -124,7 +159,7 @@ void cityManagement(int* cityCount,char cities[][MAX_NAME_LENGTH],int distance[]
   int choice;
     do {
         printf("\n--- City Management ---\n");
-        printf("1. Add City\n 2. Rename City\n 3. Remove City\n 4. Display Cities\n 5. Back to Main Menu\n");
+        printf("1. Add City\n2. Rename City\n3. Remove City\n4. Display Cities\n5. Back to Main Menu\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -157,7 +192,7 @@ void distanceManagement(int cityCount,char cities[][MAX_NAME_LENGTH],int distanc
     int choice;
     do {
         printf("\n--- Distance Management ---\n");
-        printf("1. Input Distance\n 2. Display Distance Table\n 3. Back to Main Menu\n");
+        printf("1. Input Distance\n2. Display Distance Table\n3. Back to Main Menu\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -315,7 +350,7 @@ void reports(int deliveryCount,char deliverySource[][MAX_NAME_LENGTH],char deliv
 void fileHandling(int cityCount,char cities[][MAX_NAME_LENGTH],int distance[][MAX_CITIES]){
     int choice;
     printf("\n--- File Handling ---\n");
-    printf("1. Save Data to Files\n 2. Back to Main Menu\n Enter your choice: ");
+    printf("1. Save Data to Files\n2. Back to Main Menu\n Enter your choice: ");
 
     scanf("%d", &choice);
 
